@@ -56,7 +56,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(hours=24), # Intervalle global (ou ajustable)
+            update_interval=timedelta(minutes=5), # Intervalle global (ou ajustable)
         )
         self.tracker_entity = tracker_entity
         self.username = username
