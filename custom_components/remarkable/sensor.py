@@ -14,6 +14,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Charge CPU", "cpu_load", None, None, "mdi:cpu-64-bit"),
         RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None),
         RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None),
+        RemarkableSensor(coordinator, entry, "Model", "device_model", None, "mdi:tablet"),
     ]
     async_add_entities(sensors)
 
@@ -43,6 +44,9 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity):
         info = super().device_info
         if self.coordinator.data and "version" in self.coordinator.data:
             info["sw_version"] = self.coordinator.data.get("version")
+        model = self.coordinator.data.get("device_model")
+        if model:
+            info["model"] = f"{model}"
         return info
 
     @property
