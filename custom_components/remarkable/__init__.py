@@ -132,6 +132,15 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
         try:
             data = await self.hass.async_add_executor_job(fetch_ssh)
             self.ssh_status = "Connected"
+            device_registry = dr.async_get(self.hass)
+            device_registry.async_get_or_create(
+                config_entry_id=self.entry.entry_id,
+                identifiers={(DOMAIN, self.entry.entry_id)},
+                manufacturer="reMarkable",
+                model=data.get("device_model", "Paper Tablet"),
+                sw_version=data.get("version"),
+                name=self.entry.title,
+            )
             return data
         except Exception as err:
             _LOGGER.warning("Erreur de connexion SSH : %s", err)

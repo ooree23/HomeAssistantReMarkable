@@ -53,14 +53,7 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
 
     @property
     def device_info(self):
-        info = super().device_info
-        if self.coordinator.data:
-            if "version" in self.coordinator.data:
-                info["sw_version"] = self.coordinator.data.get("version")
-            model = self.coordinator.data.get("device_model")
-            if model:
-                info["model"] = f"{model}"
-        return info
+        return self._attr_device_info
 
     @property
     def native_value(self):
