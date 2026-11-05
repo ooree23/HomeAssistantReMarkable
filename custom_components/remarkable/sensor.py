@@ -61,19 +61,18 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
             return self.coordinator.ssh_status
 
         val = None
-        if self.coordinator.data:
+        if self.coordinator.data and self._key in self.coordinator.data:
             val = self.coordinator.data.get(self._key)
-
-        if val is None:
+        elif self._restored_value is not None:
             val = self._restored_value
 
         if val is not None:
-            if self._attr_native_unit_of_measurement == "%" or self._attr_device_class == SensorDeviceClass.DATA_SIZE:
-                try:
+            try:
+                if self._attr_native_unit_of_measurement == "%" or self._attr_device_class == SensorDeviceClass.DATA_SIZE:
                     return float(val)
-                except ValueError:
-                    return val
-            return val
+                return val
+            except (ValueError, TypeError):
+                return val
         return None
 
     @property
