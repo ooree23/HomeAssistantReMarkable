@@ -94,6 +94,6 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
                 ssh.close()
                 return results
             except Exception as err:
-                raise UpdateFailed(fErreur de connexion SSH : {err}")
+                raise UpdateFailed(f"Erreur de connexion SSH : {err}")
 
         return await self.hass.async_add_executor_job(fetch_ssh)
