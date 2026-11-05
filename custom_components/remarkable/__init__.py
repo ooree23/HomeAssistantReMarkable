@@ -119,7 +119,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
 
         try:
             data = await self.hass.async_add_executor_job(fetch_ssh)
-            self.ssh_status = "OK"
+            self.ssh_status = "Connected"
             return data
         except Exception as err:
             _LOGGER.warning("Erreur de connexion SSH : %s", err)

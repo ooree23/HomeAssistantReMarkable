@@ -1,4 +1,5 @@
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+from homeassistant.const import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN
 
@@ -10,17 +11,17 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Batterie", "battery", "%", SensorDeviceClass.BATTERY),
         RemarkableSensor(coordinator, entry, "Statut Batterie", "battery_status", None, None, "mdi:power-plug-battery-outline"),
         RemarkableSensor(coordinator, entry, "Stockage Disponible", "storage_free", "%", None, "mdi:harddisk"),
-        RemarkableSensor(coordinator, entry, "Stockage Total", "storage_total", "B", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", suggested_unit="GiB"),
+        RemarkableSensor(coordinator, entry, "Stockage Total", "storage_total", "B", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", suggested_unit="GiB", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Utilisation RAM", "ram_usage", "%", None, "mdi:memory"),
         RemarkableSensor(coordinator, entry, "Charge CPU", "cpu_load", None, None, "mdi:cpu-64-bit"),
-        RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None, "mdi:linux"),
-        RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None, "mdi:cellphone-arrow-down"),
-        RemarkableSensor(coordinator, entry, "Model", "device_model", None, None, "mdi:tablet"),
+        RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None, "mdi:linux", entity_category=EntityCategory.DIAGNOSTIC),
+        RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None, "mdi:cellphone-arrow-down", entity_category=EntityCategory.DIAGNOSTIC),
+        RemarkableSensor(coordinator, entry, "Model", "device_model", None, None, "mdi:tablet", entity_category=EntityCategory.DIAGNOSTIC),
     ]
     async_add_entities(sensors)
 
 class RemarkableSensor(CoordinatorEntity, SensorEntity):
-    def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, is_status=False, suggested_unit=None):
+    def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, is_status=False, suggested_unit=None, entity_category=None):
         super().__init__(coordinator)
         self._attr_name = name
         self._key = key
@@ -30,6 +31,8 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity):
         self._attr_device_class = device_class
         if suggested_unit:
             self._attr_suggested_unit_of_measurement = suggested_unit
+        if entity_category:
+            self._attr_entity_category = entity_category
         if icon:
             self._attr_icon = icon
 
