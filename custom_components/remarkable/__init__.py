@@ -56,7 +56,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(hours=24), # Intervalle global (ou ajustable)
+            update_interval=timedelta(minutes=5), # Intervalle global (ou ajustable)
         )
         self.tracker_entity = tracker_entity
         self.username = username
@@ -81,9 +81,13 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
                 commands = {
                     "battery": "cat /sys/class/power_supply/*/capacity",
                     "battery_status": "cat /sys/class/power_supply/*/status",
-                    "storage": "df /home | awk 'NR==2 {printf \"%.1f\", ($4/$2)*100}'",
+                    "storage_free": "df /home | awk 'NR==2 {printf \"%.1f\", ($4/$2)*100}'",
+                    "storage_total": "df -h /home | awk 'NR==2 {print $2}'",
+                    "ram_usage": "free | awk '/Mem:/ {printf \"%.1f\", ($3/$2)*100}'",
+                    "cpu_load": "awk '{print $1}' /proc/loadavg",
                     "linux_version": "sed -n 's/^VERSION=\"\(.*\)\"/\\1/p' /etc/os-release",
-                    "version": "sed -n 's/^IMG_VERSION=\"\(.*\)\"/\\1/p' /etc/os-release"
+                    "version": "sed -n 's/^IMG_VERSION=\"\(.*\)\"/\\1/p' /etc/os-release",
+                    "device_model": "cat /sys/devices/soc0/machine 2>/dev/null || echo 'reMarkable'"
                 }
 
                 results = {}
@@ -94,6 +98,6 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
                 ssh.close()
                 return results
             except Exception as err:
-                raise UpdateFailed(fErreur de connexion SSH : {err}")
+                raise UpdateFailed(f"Erreur de connexion SSH : {err}")
 
         return await self.hass.async_add_executor_job(fetch_ssh)
