@@ -14,7 +14,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Charge CPU", "cpu_load", None, None, "mdi:cpu-64-bit"),
         RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None),
         RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None),
-        RemarkableSensor(coordinator, entry, "Model", "device_model", None, "mdi:tablet"),
+        RemarkableSensor(coordinator, entry, "Model", "device_model", None, None, "mdi:tablet"),
     ]
     async_add_entities(sensors)
 

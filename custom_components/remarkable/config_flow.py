@@ -15,7 +15,7 @@ class RemarkableConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
         schema = vol.Schema({
-            vol.Required(CONF_TRACKER_ENTITY, default="device_tracker.studio_remarkable"): selector.EntitySelector(
+            vol.Required(CONF_TRACKER_ENTITY, default="device_tracker.remarkable"): selector.EntitySelector(
                 selector.EntitySelectorConfig(domain="device_tracker")
             ),
             vol.Required(CONF_USERNAME, default=DEFAULT_USERNAME): str,
