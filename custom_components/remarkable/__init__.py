@@ -19,7 +19,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     password = entry.options.get(CONF_PASSWORD, entry.data.get(CONF_PASSWORD))
 
     coordinator = RemarkableDataUpdateCoordinator(hass, entry, tracker_entity, username, password)
-    await coordinator.async_config_entry_first_refresh()
+
+    # On utilise un premier refresh sécurisé pour ne pas bloquer le démarrage de HA si la tablette est injoignable
+    try:
+        await coordinator.async_config_entry_first_refresh()
+    except Exception as err:
+        _LOGGER.warning("Impossible de joindre la reMarkable au démarrage, les entités utiliseront les états restaurés : %s", err)
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
@@ -28,7 +33,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
-    # Écoute les changements d'état du device_tracker pour déclencher un refresh immédiat si l'IP change
     @callback
     async def async_tracker_changed(event):
         new_state = event.data.get("new_state")

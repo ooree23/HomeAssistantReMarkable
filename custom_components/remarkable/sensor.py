@@ -7,13 +7,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
     sensors = [
-        RemarkableSensor(coordinator, entry, "Statut SSH", "ssh_status", None, None, "mdi:connection", is_status=True),
+        RemarkableSensor(coordinator, entry, "SSH connexion", "ssh_status", None, None, "mdi:connection", is_status=True),
         RemarkableSensor(coordinator, entry, "Batterie", "battery", "%", SensorDeviceClass.BATTERY),
-        RemarkableSensor(coordinator, entry, "Statut Batterie", "battery_status", None, None, "mdi:power-plug-battery-outline"),
-        RemarkableSensor(coordinator, entry, "Stockage Disponible", "storage_free", "%", None, "mdi:harddisk"),
-        RemarkableSensor(coordinator, entry, "Stockage Total", "storage_total", "B", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", suggested_unit="GiB", entity_category=EntityCategory.DIAGNOSTIC),
-        RemarkableSensor(coordinator, entry, "Utilisation RAM", "ram_usage", "%", None, "mdi:memory"),
-        RemarkableSensor(coordinator, entry, "Charge CPU", "cpu_load", None, None, "mdi:cpu-64-bit"),
+        RemarkableSensor(coordinator, entry, "Batterie status", "battery_status", None, None, "mdi:power-plug-battery-outline"),
+        RemarkableSensor(coordinator, entry, "Storage available", "storage_free", "%", None, "mdi:harddisk"),
+        RemarkableSensor(coordinator, entry, "Total storage", "storage_total", "B", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", suggested_unit="GiB", entity_category=EntityCategory.DIAGNOSTIC),
+        RemarkableSensor(coordinator, entry, "RAM usage", "ram_usage", "%", None, "mdi:memory"),
+        RemarkableSensor(coordinator, entry, "CPU usage", "cpu_load", None, None, "mdi:cpu-64-bit"),
         RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None, "mdi:linux", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None, "mdi:cellphone-arrow-down", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Model", "device_model", None, None, "mdi:tablet", entity_category=EntityCategory.DIAGNOSTIC),
