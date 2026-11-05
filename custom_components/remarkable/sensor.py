@@ -13,21 +13,37 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Utilisation RAM", "ram_usage", "%", None, "mdi:memory"),
         RemarkableSensor(coordinator, entry, "Charge CPU", "cpu_load", None, None, "mdi:cpu-64-bit"),
         RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None),
-        RemarkableSensor(coordinator, entry, "Version", "version", None, None),
+        RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None),
     ]
     async_add_entities(sensors)
 
 class RemarkableSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None):
         super().__init__(coordinator)
-        self._attr_name = f"{entry.title} {name}"
+        self._attr_name = name
         self._key = key
-        # On utilise entry_id pour différencier les entités si vous avez plusieurs tablettes
+        # Utilisation de entry.entry_id pour garantir l'unicité même avec plusieurs tablettes
         self._attr_unique_id = f"remarkable_{entry.entry_id}_{key}"
         self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
         if icon:
             self._attr_icon = icon
+
+        # C'est ici qu'on associe l'entité à un "Appareil" unique dans Home Assistant
+        self._attr_device_info = {
+            "identifiers": {(DOMAIN, entry.entry_id)},
+            "name": entry.title,
+            "manufacturer": "reMarkable",
+            "model": "Paper Tablet",
+        }
+
+    @property
+    def device_info(self):
+        # Permet de mettre à jour dynamiquement la version logicielle de la tablette dans les infos de l'appareil
+        info = super().device_info
+        if self.coordinator.data and "version" in self.coordinator.data:
+            info["sw_version"] = self.coordinator.data.get("version")
+        return info
 
     @property
     def native_value(self):
@@ -43,7 +59,6 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def available(self):
-        # Vérifie si le coordinateur a réussi la dernière maj et si l'IP est valide
         if not super().available:
             return False
         state = self.hass.states.get(self.coordinator.tracker_entity)
