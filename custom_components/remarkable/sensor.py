@@ -1,6 +1,7 @@
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from homeassistant.const import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.restore_state import RestoreEntity
 from .const import DOMAIN
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -20,7 +21,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     ]
     async_add_entities(sensors)
 
-class RemarkableSensor(CoordinatorEntity, SensorEntity):
+class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
     def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, is_status=False, suggested_unit=None, entity_category=None):
         super().__init__(coordinator)
         self._attr_name = name
@@ -42,15 +43,23 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity):
             "manufacturer": "reMarkable",
             "model": "Paper Tablet",
         }
+        self._restored_value = None
+
+    async def async_added_to_hass(self):
+        await super().async_added_to_hass()
+        last_state = await self.async_get_last_state()
+        if last_state and last_state.state not in ["unavailable", "unknown"]:
+            self._restored_value = last_state.state
 
     @property
     def device_info(self):
         info = super().device_info
-        if self.coordinator.data and "version" in self.coordinator.data:
-            info["sw_version"] = self.coordinator.data.get("version")
-        model = self.coordinator.data.get("device_model")
-        if model:
-            info["model"] = f"{model}"
+        if self.coordinator.data:
+            if "version" in self.coordinator.data:
+                info["sw_version"] = self.coordinator.data.get("version")
+            model = self.coordinator.data.get("device_model")
+            if model:
+                info["model"] = f"{model}"
         return info
 
     @property
@@ -58,9 +67,15 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity):
         if self._is_status:
             return self.coordinator.ssh_status
 
+        val = None
         if self.coordinator.data:
             val = self.coordinator.data.get(self._key)
-            if self._attr_native_unit_of_measurement == "%" and val:
+
+        if val is None:
+            val = self._restored_value
+
+        if val is not None:
+            if self._attr_native_unit_of_measurement == "%" or self._attr_device_class == SensorDeviceClass.DATA_SIZE:
                 try:
                     return float(val)
                 except ValueError:
@@ -71,12 +86,9 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity):
     @property
     def available(self):
         if self._is_status:
-            return True # L'entité de statut reste toujours disponible pour afficher "OK" ou "unavailable"
+            return True
 
-        if not super().available:
-            return False
-        state = self.hass.states.get(self.coordinator.tracker_entity)
-        if not state:
-            return False
-        ip = state.attributes.get("ip")
-        return ip not in [None, "None", "unavailable", "unknown", ""]
+        if (self.coordinator.data and self._key in self.coordinator.data) or self._restored_value is not None:
+            return True
+
+        return super().available
