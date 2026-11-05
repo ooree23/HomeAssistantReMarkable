@@ -18,9 +18,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     username = entry.options.get(CONF_USERNAME, entry.data.get(CONF_USERNAME))
     password = entry.options.get(CONF_PASSWORD, entry.data.get(CONF_PASSWORD))
 
+    # Attente de la création de l'entité tracker (timeout de 30 secondes)
+    elapsed = 0
+    while elapsed < 30:
+        if hass.states.get(tracker_entity) is not None:
+            break
+        await asyncio.sleep(1)
+        elapsed += 1
+    else:
+        _LOGGER.warning("Le tracker %s n'est pas apparu après 30 secondes, continuation...", tracker_entity)
+
     coordinator = RemarkableDataUpdateCoordinator(hass, entry, tracker_entity, username, password)
 
-    # On utilise un premier refresh sécurisé pour ne pas bloquer le démarrage de HA si la tablette est injoignable
     try:
         await coordinator.async_config_entry_first_refresh()
     except Exception as err:
@@ -74,7 +83,6 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
         self.ssh_status = "unavailable"
 
     async def _async_update_data(self):
-        # Récupération dynamique si les options ont changé
         self.tracker_entity = self.entry.options.get(CONF_TRACKER_ENTITY, self.entry.data.get(CONF_TRACKER_ENTITY))
         self.username = self.entry.options.get(CONF_USERNAME, self.entry.data.get(CONF_USERNAME))
         self.password = self.entry.options.get(CONF_PASSWORD, self.entry.data.get(CONF_PASSWORD))
@@ -128,7 +136,6 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
         except Exception as err:
             _LOGGER.warning("Erreur de connexion SSH : %s", err)
             self.ssh_status = "unavailable"
-            # Si on a déjà des données précédentes, on les retourne pour éviter les "trous" dans les graphiques
             if self.data:
                 return self.data
             raise UpdateFailed(f"Erreur de connexion SSH : {err}")
