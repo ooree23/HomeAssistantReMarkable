@@ -1,3 +1,6 @@
+![ha_badge](https://img.shields.io/badge/Home_Assistant-2026.11.0_Compatible-blue)
+![ha_badge](https://img.shields.io/badge/reMarkable-1+_Compatible-green)
+
 # reMarkable status integration on Home Assistant
 
 ![](logo.png)
@@ -29,7 +32,7 @@ Track your reMarkable info :
 
 ## Installation
 
-[![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable)
+[![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
 
 ## Requirements
 
@@ -68,7 +71,7 @@ Track your reMarkable info :
 
 ## Trigger
 - Data is refreshed every time the `device_tracker` changes (state or IP)
-- Data is also refreshed every 5 minutes
+- Data is also refreshed every 5 minutes by default (interval customizable)
 
 ## Sensors
 
