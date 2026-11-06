@@ -1,4 +1,4 @@
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
 from homeassistant.const import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.restore_state import RestoreEntity
@@ -12,9 +12,9 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Battery", "battery", "%", SensorDeviceClass.BATTERY),
         RemarkableSensor(coordinator, entry, "Battery status", "battery_status", None, None, "mdi:power-plug-battery-outline"),
         RemarkableSensor(coordinator, entry, "Storage available", "storage_free", "%", None, "mdi:harddisk"),
-        RemarkableSensor(coordinator, entry, "Total storage", "storage_total", "B", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", suggested_unit="GiB", entity_category=EntityCategory.DIAGNOSTIC),
+        RemarkableSensor(coordinator, entry, "Total storage", "storage_total", "GiB", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "RAM usage", "ram_usage", "%", None, "mdi:memory"),
-        RemarkableSensor(coordinator, entry, "CPU usage", "cpu_load", None, None, "mdi:cpu-64-bit"),
+        RemarkableSensor(coordinator, entry, "CPU usage", "cpu_load", None, None, "mdi:cpu-64-bit", state_class=SensorStateClass.MEASUREMENT),
         RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None, "mdi:linux", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None, "mdi:cellphone-arrow-down", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Model", "device_model", None, None, "mdi:tablet", entity_category=EntityCategory.DIAGNOSTIC),
@@ -22,7 +22,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_add_entities(sensors)
 
 class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
-    def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, is_status=False, suggested_unit=None, entity_category=None):
+    def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, is_status=False, entity_category=None, state_class=None):
         super().__init__(coordinator)
         self._attr_name = name
         self._key = key
@@ -30,8 +30,8 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
         self._attr_unique_id = f"remarkable_{entry.entry_id}_{key}"
         self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
-        if suggested_unit:
-            self._attr_suggested_unit_of_measurement = suggested_unit
+        if state_class:
+            self._attr_state_class = state_class
         if entity_category:
             self._attr_entity_category = entity_category
         if icon:
@@ -68,7 +68,10 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
 
         if val is not None:
             try:
-                if self._attr_native_unit_of_measurement == "%" or self._attr_device_class == SensorDeviceClass.DATA_SIZE:
+                if (self._attr_native_unit_of_measurement == "%"
+                    or self._attr_device_class == SensorDeviceClass.DATA_SIZE
+                    or self._key == "cpu_load"
+                ):
                     return float(val)
                 return val
             except (ValueError, TypeError):
