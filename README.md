@@ -7,6 +7,28 @@ Developped by Aurélien Tomassini (ooree23).
 
 Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
+## Features
+
+Track your reMarkable info :
+- **Battery** sensor :  
+  you can then see its evolution over the week,  
+  create notification when battery is low,  
+  notify when the battery fully charged...  
+  ![](docs/battery_hist.png)
+- **Storage** usage sensor :  
+  see the storage evolution over time,  
+  notify when storage remaining is low, etc  
+  ![](docs/storage_hist.png)
+- **CPU** usage sensor
+- **RAM** usage sensor
+- **Firmware** version
+- **Linux** version
+- **Model**
+- Connexion history
+  
+
+## Installation
+
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable)
 
 ## Requirements
@@ -50,8 +72,10 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
 ## Sensors
 
+### Device example
+
 ![](docs/device_sensors.png)
 
-Dashboard example :
+### Dashboard example
 
 ![](docs/dashboard.png)
