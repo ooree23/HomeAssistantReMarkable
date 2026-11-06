@@ -110,10 +110,21 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
                     if state_obj and state_obj.state not in ["unavailable", "unknown"]:
                         version = state_obj.state
 
+        # Récupération des infos du device_tracker associé
+        state = self.hass.states.get(self.tracker_entity)
+        connections = set()
+        if state:
+            # Si le tracker expose une adresse MAC dans ses attributs (ex: mac, source, etc.)
+            mac = state.attributes.get("mac") or state.attributes.get("mac_address")
+            if mac:
+                connections.add((dr.CONNECTION_NETWORK_MAC, mac))
+
+
         device_registry = dr.async_get(self.hass)
         device_registry.async_get_or_create(
             config_entry_id=self.entry.entry_id,
             identifiers={(DOMAIN, self.entry.entry_id)},
+            connections=connections,
             manufacturer="reMarkable",
             model=model if model else "Paper Tablet",
             sw_version=version,
