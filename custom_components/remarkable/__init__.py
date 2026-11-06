@@ -10,7 +10,7 @@ from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 
-from .const import DOMAIN, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD
+from .const import DOMAIN, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS = ["sensor"]
@@ -19,6 +19,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     tracker_entity = entry.options.get(CONF_TRACKER_ENTITY, entry.data.get(CONF_TRACKER_ENTITY))
     username = entry.options.get(CONF_USERNAME, entry.data.get(CONF_USERNAME))
     password = entry.options.get(CONF_PASSWORD, entry.data.get(CONF_PASSWORD))
+
+    scan_interval_minutes = entry.options.get(CONF_SCAN_INTERVAL, entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL))
+    scan_interval = timedelta(minutes=scan_interval_minutes)
 
     # Attente de la création de l'entité tracker (timeout de 30 secondes)
     elapsed = 0
@@ -30,7 +33,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     else:
         _LOGGER.warning("Le tracker %s n'est pas apparu après 30 secondes, continuation...", tracker_entity)
 
-    coordinator = RemarkableDataUpdateCoordinator(hass, entry, tracker_entity, username, password)
+    coordinator = RemarkableDataUpdateCoordinator(hass, entry, tracker_entity, username, password, scan_interval)
 
     try:
         await coordinator.async_config_entry_first_refresh()
@@ -71,12 +74,12 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return unload_ok
 
 class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry, tracker_entity: str, username: str, password: str):
+    def __init__(self, hass: HomeAssistant, entry: ConfigEntry, tracker_entity: str, username: str, password: str, scan_interval: timedelta):
         super().__init__(
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(minutes=5),
+            update_interval=scan_interval,
         )
         self.entry = entry
         self.tracker_entity = tracker_entity

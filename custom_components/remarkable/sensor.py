@@ -2,7 +2,7 @@ from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, Sen
 from homeassistant.const import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.restore_state import RestoreEntity
-from .const import DOMAIN
+from .const import DOMAIN, CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
 
 async def async_setup_entry(hass, entry, async_add_entities):
     coordinator = hass.data[DOMAIN][entry.entry_id]
@@ -18,6 +18,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Linux Version", "linux_version", None, None, "mdi:linux", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Firmware Version", "version", None, None, "mdi:cellphone-arrow-down", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "Model", "device_model", None, None, "mdi:tablet", entity_category=EntityCategory.DIAGNOSTIC),
+        RemarkableScanIntervalSensor(coordinator, entry),
     ]
     async_add_entities(sensors)
 
@@ -89,3 +90,34 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
             return True
 
         return super().available
+
+
+
+
+class RemarkableScanIntervalSensor(SensorEntity):
+    _attr_icon = "mdi:update"
+    _attr_has_entity_name = True
+    _attr_translation_key = "scan_interval"  # Optionnel pour l'internationalisation
+
+    def __init__(self, coordinator, entry):
+        self.coordinator = coordinator
+        self._entry = entry
+        self._attr_unique_id = f"remarkable_{entry.entry_id}_scan_interval"
+        self._attr_name = "Refresh Interval"
+        self._attr_entity_category = EntityCategory.DIAGNOSTIC
+        # Optionnel : rattacher au même appareil que les autres sensors
+        self._attr_device_info = {
+            "identifiers": {(DOMAIN, entry.entry_id)},
+        }
+
+    @property
+    def native_value(self):
+        # Récupère la valeur depuis les options ou les données (en minutes)
+        return self._entry.options.get(
+            CONF_SCAN_INTERVAL,
+            self._entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+        )
+
+    @property
+    def native_unit_of_measurement(self):
+        return "min"

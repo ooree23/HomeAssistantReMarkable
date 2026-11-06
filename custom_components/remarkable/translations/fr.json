@@ -1,0 +1,34 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ajouter une tablette reMarkable",
+        "description": "Saisissez les informations de connexion à votre tablette.",
+        "data": {
+          "tracker_entity": "Entité pour l'adresse IP (Device Tracker)",
+          "username": "Utilisateur SSH",
+          "password": "Mot de passe SSH",
+          "scan_interval": "Intervalle de rafraîchissement (minutes)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion",
+      "invalid_auth": "Authentification invalide"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options de la tablette reMarkable",
+        "description": "Modifier la configuration d'accès à la tablette.",
+        "data": {
+          "tracker_entity": "Entité de suivi (Device Tracker)",
+          "username": "Utilisateur SSH",
+          "password": "Mot de passe SSH",
+          "scan_interval": "Intervalle de rafraîchissement (minutes)"
+        }
+      }
+    }
+  }
+}
