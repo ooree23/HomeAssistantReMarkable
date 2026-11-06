@@ -51,7 +51,7 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
         if last_state and last_state.state not in ["unavailable", "unknown"]:
             self._restored_value = last_state.state
         if self._key in ("device_model", "version"):
-                    await self.coordinator.async_update_device_registry()
+            await self.coordinator.async_update_device_registry()
 
     @property
     def device_info(self):

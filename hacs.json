@@ -1,7 +1,7 @@
 {
-  "name": "remarkable",
+  "name": "reMarkable Tablet",
   "domains": ["sensor"],
   "render_readme": true,
   "country": "FR",
-  "iot_class": "Cloud Polling"
+  "iot_class": "Local Polling"
 }

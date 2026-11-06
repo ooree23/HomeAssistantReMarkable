@@ -8,6 +8,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD
 
@@ -91,14 +92,20 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
         if self.data:
             model = self.data.get("device_model")
             version = self.data.get("version")
-        else:
-            # Fallback sur les états restaurés des entités si le coordinateur n'a pas de données
-            model_state = self.hass.states.get(f"sensor.remarkable_{self.entry.entry_id}_device_model")
-            version_state = self.hass.states.get(f"sensor.remarkable_{self.entry.entry_id}_version")
-            if model_state and model_state.state not in ["unavailable", "unknown"]:
-                model = model_state.state
-            if version_state and version_state.state not in ["unavailable", "unknown"]:
-                version = version_state.state
+
+        if not model or not version:
+            ent_reg = er.async_get(self.hass)
+            entries = er.async_entries_for_config_entry(ent_reg, self.entry.entry_id)
+
+            for ent in entries:
+                if not model and ent.unique_id == f"remarkable_{self.entry.entry_id}_device_model":
+                    state_obj = self.hass.states.get(ent.entity_id)
+                    if state_obj and state_obj.state not in ["unavailable", "unknown"]:
+                        model = state_obj.state
+                elif not version and ent.unique_id == f"remarkable_{self.entry.entry_id}_version":
+                    state_obj = self.hass.states.get(ent.entity_id)
+                    if state_obj and state_obj.state not in ["unavailable", "unknown"]:
+                        version = state_obj.state
 
         device_registry = dr.async_get(self.hass)
         device_registry.async_get_or_create(
