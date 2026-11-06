@@ -13,10 +13,12 @@ Track your reMarkable info :
 - **Battery** sensor :  
   you can then see its evolution over the week,  
   create notification when battery is low,  
-  notify when the battery fully charged...
+  notify when the battery fully charged...  
+  ![](docs/battery_hist.png)
 - **Storage** usage sensor :  
   see the storage evolution over time,  
-  notify when storage remaining is low, etc
+  notify when storage remaining is low, etc  
+  ![](docs/storage_hist.png)
 - **CPU** usage sensor
 - **RAM** usage sensor
 - **Firmware** version
