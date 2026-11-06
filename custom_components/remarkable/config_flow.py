@@ -35,7 +35,7 @@ class RemarkableConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @staticmethod
     @callback
     def async_get_options_flow(config_entry):
-        return RemarkableOptionsFlowHandler(config_entry)
+        return RemarkableOptionsFlowHandler()
 
 class RemarkableOptionsFlowHandler(config_entries.OptionsFlow):
     async def async_step_init(self, user_input=None):
