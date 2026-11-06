@@ -1,3 +1,10 @@
+![ha_badge](https://img.shields.io/badge/Home_Assistant-2026.11.0_Compatible-blue)  
+![ha_badge](https://img.shields.io/badge/reMarkable_1-v3.30.0.108_Tested-green)  
+[![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
+
+
+
+
 # reMarkable status integration on Home Assistant
 
 ![](logo.png)
@@ -6,6 +13,19 @@ Home Assistant integration to track tour reMarkable status.
 Developped by Aurélien Tomassini (ooree23).
 
 Tested with reMarkable 1, on Home Assistant 2026.11.0.
+
+<!-- toc -->
+
+- [Features](#features)
+- [Installation](#installation)
+  * [Requirements](#requirements)
+  * [Adding your reMarkable(s)](#adding-your-remarkables)
+- [Trigger](#trigger)
+- [Sensors](#sensors)
+  * [Device example](#device-example)
+  * [Dashboard example](#dashboard-example)
+
+<!-- tocstop -->
 
 ## Features
 
@@ -29,9 +49,9 @@ Track your reMarkable info :
 
 ## Installation
 
-[![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable)
+[![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
 
-## Requirements
+### Requirements
 
 - Your reMarkable **must be** in the same network as your Home Assistant
 - A `device_tracker` entity that has the IP address of your reMarkable as **a "ip" attribute**.  
@@ -55,7 +75,7 @@ Track your reMarkable info :
   Once allowed, your reMarkable will be accessible by Home Assistant over Wifi,
   every time it is connected to your local network.
 
-## Adding your reMarkable(s)
+### Adding your reMarkable(s)
 
 > You can add as many reMarkable tablets as you want.  
 > Each of them must have its own `device_tracker`.
@@ -68,7 +88,7 @@ Track your reMarkable info :
 
 ## Trigger
 - Data is refreshed every time the `device_tracker` changes (state or IP)
-- Data is also refreshed every 5 minutes
+- Data is also refreshed every 5 minutes by default (interval customizable)
 
 ## Sensors
 
