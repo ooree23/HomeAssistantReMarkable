@@ -154,7 +154,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             try:
-                ssh.connect(ip, username=self.username, password=self.password, timeout=10)
+                ssh.connect(ip, username=self.username, password=self.password, timeout=2)
 
                 commands = {
                     "battery": "cat /sys/class/power_supply/*/capacity",
@@ -191,5 +191,8 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             _LOGGER.warning("Erreur de connexion SSH : %s", err)
             self.ssh_status = "unavailable"
             if self.data:
+                self.data["ram_usage"] = None
+                self.data["cpu_load"] = None
+                self.data["battery_status"] = None
                 return self.data
             raise UpdateFailed(f"Erreur de connexion SSH : {err}")
