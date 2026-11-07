@@ -1,7 +1,7 @@
 {
   "domain": "remarkable",
   "name": "reMarkable Tablet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "documentation": "https://github.com/ooree23/HomeAssistantReMarkable",
   "requirements": ["paramiko>=3.4.0"],
   "dependencies": [],
