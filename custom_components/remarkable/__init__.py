@@ -193,5 +193,6 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             if self.data:
                 self.data["ram_usage"] = None
                 self.data["cpu_load"] = None
+                self.data["battery_status"] = None
                 return self.data
             raise UpdateFailed(f"Erreur de connexion SSH : {err}")

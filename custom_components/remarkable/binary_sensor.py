@@ -45,7 +45,7 @@ class RemarkableBinarySensor(CoordinatorEntity, BinarySensorEntity):
             return bool(val)
 
         elif self._key == "battery_status":
-            if self.coordinator.data and self._key in self.coordinator.data:
+            if self.coordinator.data and self._key in self.coordinator.data and self.coordinator.data.get(self._key) is not None:
                 val = str(self.coordinator.data.get(self._key, "")).lower()
                 return val in ("charging", "true", "on", "1")
 

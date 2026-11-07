@@ -79,7 +79,7 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
     @property
     def available(self):
         if (self.coordinator.data and self._key in self.coordinator.data) or self._restored_value is not None:
-            return True
+            return native_value() is not None
 
         return super().available
 
