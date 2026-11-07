@@ -191,5 +191,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             _LOGGER.warning("Erreur de connexion SSH : %s", err)
             self.ssh_status = "unavailable"
             if self.data:
+                self.data["ram_usage"] = None
+                self.data["cpu_load"] = None
                 return self.data
             raise UpdateFailed(f"Erreur de connexion SSH : {err}")
