@@ -154,7 +154,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             try:
-                ssh.connect(ip, username=self.username, password=self.password, timeout=10)
+                ssh.connect(ip, username=self.username, password=self.password, timeout=2)
 
                 commands = {
                     "battery": "cat /sys/class/power_supply/*/capacity",
