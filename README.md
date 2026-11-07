@@ -1,6 +1,12 @@
-![ha_badge](https://img.shields.io/badge/Home_Assistant-2026.11.0_Compatible-blue)  
 [![rm1](https://img.shields.io/badge/rM1-supported-green)](https://remarkable.com/products/remarkable-1)
-![ha_badge](https://img.shields.io/badge/reMarkable_Firmware-v3.30.0.108_Tested-green)  
+[![rm2](https://img.shields.io/badge/rM2-supported_not_tested-green)](https://remarkable.com/products/remarkable-2)
+[![rmpp](https://img.shields.io/badge/rMPP-supported_not_tested-green)](https://remarkable.com/products/remarkable-paper/pro)
+[![rmppm](https://img.shields.io/badge/rMPPM-supported_not_tested-green)](https://remarkable.com/products/remarkable-paper/pro-move)
+[![rmppure](https://img.shields.io/badge/rMPPure-supported_not_tested-green)](https://remarkable.com/products/remarkable-paper/pure)
+[![Discord](https://img.shields.io/discord/385916768696139794.svg?label=reMarkable&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/ATqQGfu)
+&nbsp;  
+![ha_badge](https://img.shields.io/badge/reMarkable_Firmware-v3.30.0+_Compatible-orange)  
+![ha_badge](https://img.shields.io/badge/Home_Assistant-2026.11.0_Compatible-blue)  
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
 
 
