@@ -12,6 +12,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RemarkableSensor(coordinator, entry, "Battery", "battery", "%", SensorDeviceClass.BATTERY),
         RemarkableSensor(coordinator, entry, "Battery status", "battery_status", None, None, "mdi:power-plug-battery-outline"),
         RemarkableSensor(coordinator, entry, "Storage available", "storage_free", "%", None, "mdi:harddisk"),
+        RemarkableSensor(coordinator, entry, "Storage used", "storage_used", "%", None, "mdi:harddisk"),
         RemarkableSensor(coordinator, entry, "Total storage", "storage_total", "GiB", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", entity_category=EntityCategory.DIAGNOSTIC),
         RemarkableSensor(coordinator, entry, "RAM usage", "ram_usage", "%", None, "mdi:memory"),
         RemarkableSensor(coordinator, entry, "CPU usage", "cpu_load", None, None, "mdi:cpu-64-bit", state_class=SensorStateClass.MEASUREMENT),

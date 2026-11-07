@@ -173,6 +173,9 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
                     stdin, stdout, stderr = ssh.exec_command(cmd)
                     results[key] = stdout.read().decode('utf-8').strip()
 
+                if results["storage_free"]:
+                    results["storage_used"] = f"{100 - float(results['storage_free']):.1f}"
+
                 ssh.close()
                 return results
             except Exception as err:
