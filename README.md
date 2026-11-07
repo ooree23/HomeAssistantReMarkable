@@ -1,16 +1,18 @@
 ![ha_badge](https://img.shields.io/badge/Home_Assistant-2026.11.0_Compatible-blue)  
-![ha_badge](https://img.shields.io/badge/reMarkable_1-v3.30.0.108_Tested-green)  
+[![rm1](https://img.shields.io/badge/rM1-supported-green)](https://remarkable.com/products/remarkable-1)
+![ha_badge](https://img.shields.io/badge/reMarkable_Firmware-v3.30.0.108_Tested-green)  
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
 
 
 
 
-# reMarkable status integration on Home Assistant
+# reMarkable status, unofficial Home Assistant integration
 
 ![](logo.png)
 
-Home Assistant integration to track tour reMarkable status.  
-Developped by Aurélien Tomassini (ooree23).
+Home Assistant integration to track your reMarkable tablet status.  
+Developped by Aurélien Tomassini (ooree23).  
+**This is a custom integration, not official, nor related to reMarkable team.**
 
 Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
@@ -58,7 +60,7 @@ Track your reMarkable info :
   It allows to use a dynamic IP address for your reMarkable, usually thanks to your router
   integration.  
   > If you have no device_tracker to find the IP from, you can force static IP for your reMarkable on your routeur.  
-  > In this case, you can create a virtual `device_tracker` containing this static IP address.
+  > In this case, you can create a virtual `device_tracker` in your `configuration.yaml`, containing this static IP address.
   > ```yaml
   > template:
   >   - device_tracker:

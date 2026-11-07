@@ -194,3 +194,5 @@ fabric.properties
 .idea/
 docs/old config.txt
 docs/remarkable_ssh.py
+docs/logo-src.svg
+docs/logo-rm-ha.svg
