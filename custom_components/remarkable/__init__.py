@@ -13,7 +13,7 @@ from homeassistant.helpers import entity_registry as er
 from .const import DOMAIN, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
-PLATFORMS = ["sensor"]
+PLATFORMS = ["sensor", "binary_sensor"]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     tracker_entity = entry.options.get(CONF_TRACKER_ENTITY, entry.data.get(CONF_TRACKER_ENTITY))
@@ -183,7 +183,7 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
 
         try:
             data = await self.hass.async_add_executor_job(fetch_ssh)
-            self.ssh_status = "Connected"
+            self.ssh_status = "connected"
             self.data = data
             await self.async_update_device_registry()
             return data

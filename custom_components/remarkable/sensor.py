@@ -8,9 +8,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
     sensors = [
-        RemarkableSensor(coordinator, entry, "SSH connexion", "ssh_status", None, None, "mdi:connection", is_status=True),
         RemarkableSensor(coordinator, entry, "Battery", "battery", "%", SensorDeviceClass.BATTERY),
-        RemarkableSensor(coordinator, entry, "Battery status", "battery_status", None, None, "mdi:power-plug-battery-outline"),
         RemarkableSensor(coordinator, entry, "Storage available", "storage_free", "%", None, "mdi:harddisk"),
         RemarkableSensor(coordinator, entry, "Storage used", "storage_used", "%", None, "mdi:harddisk"),
         RemarkableSensor(coordinator, entry, "Total storage", "storage_total", "GiB", SensorDeviceClass.DATA_SIZE, "mdi:harddisk", entity_category=EntityCategory.DIAGNOSTIC),
@@ -24,11 +22,10 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_add_entities(sensors)
 
 class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
-    def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, is_status=False, entity_category=None, state_class=None):
+    def __init__(self, coordinator, entry, name, key, unit, device_class, icon=None, entity_category=None, state_class=None):
         super().__init__(coordinator)
         self._attr_name = name
         self._key = key
-        self._is_status = is_status
         self._attr_unique_id = f"remarkable_{entry.entry_id}_{key}"
         self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
@@ -61,9 +58,6 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
 
     @property
     def native_value(self):
-        if self._is_status:
-            return self.coordinator.ssh_status
-
         val = None
         if self.coordinator.data and self._key in self.coordinator.data:
             val = self.coordinator.data.get(self._key)
@@ -84,9 +78,6 @@ class RemarkableSensor(CoordinatorEntity, SensorEntity, RestoreEntity):
 
     @property
     def available(self):
-        if self._is_status:
-            return True
-
         if (self.coordinator.data and self._key in self.coordinator.data) or self._restored_value is not None:
             return True
 
