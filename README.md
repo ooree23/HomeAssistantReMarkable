@@ -59,7 +59,7 @@ Track your reMarkable info :
 
 > [!CAUTION]
 > This integration connects to your reMarkable using an SSH connection.  
-> All the SSH commands used are in [ssh_commands.py](./ssh_commands.py).  
+> All the SSH commands used are in [ssh_commands.py](custom_components/remarkable/ssh_commands.py).  
 > When using a fork (or even my version), please ensure to be aware of which command is used, to ensure that the integration doesn't modify any data on your reMarkable.  
 > **Use it at your own risk.**
 
