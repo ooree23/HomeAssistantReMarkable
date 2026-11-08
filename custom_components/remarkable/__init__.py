@@ -11,6 +11,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
+from .ssh_commands import SSH_COMMANDS
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS = ["sensor", "binary_sensor"]
@@ -156,20 +157,8 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
             try:
                 ssh.connect(ip, username=self.username, password=self.password, timeout=2)
 
-                commands = {
-                    "battery": "cat /sys/class/power_supply/*/capacity",
-                    "battery_status": "cat /sys/class/power_supply/*/status",
-                    "storage_free": "df /home | awk 'NR==2 {printf \"%.1f\", ($4/$2)*100}'",
-                    "storage_total": "df /home | awk 'NR==2 {print $2 / (1024 * 1024)}'",
-                    "ram_usage": "free | awk '/Mem:/ {printf \"%.1f\", ($3/$2)*100}'",
-                    "cpu_load": "awk '{print $1}' /proc/loadavg",
-                    "linux_version": "sed -n 's/^VERSION=\"\(.*\)\"/\\1/p' /etc/os-release",
-                    "version": "sed -n 's/^IMG_VERSION=\"\(.*\)\"/\\1/p' /etc/os-release",
-                    "device_model": "cat /sys/devices/soc0/machine 2>/dev/null || echo 'reMarkable'"
-                }
-
                 results = {}
-                for key, cmd in commands.items():
+                for key, cmd in SSH_COMMANDS.items():
                     stdin, stdout, stderr = ssh.exec_command(cmd)
                     results[key] = stdout.read().decode('utf-8').strip()
 
