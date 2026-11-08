@@ -57,27 +57,20 @@ Track your reMarkable info :
 
 ## Caution
 
-<div style="background-color:rgba(200,80,0,0.5); padding: 16px; margin-bottom: 6px; border-radius: 12px">
-<b>CAUTION</b>
-<hr style="height: 1px; margin: 6px 0;"/>
-This integration connects to your reMarkable using SSH connexion.<br/>
-All the SSH commands used are in the file <a href="./ssh_commands.py">ssh_commands.py</a>.<br/>
-When using a fork (or even my version), please ensure to be aware of which command is used,
-to ensure that the integration doesn't modify any data on your reMarkable.
-<b>Use it at your own risk.</b>
-</div>
+> [!CAUTION]
+> This integration connects to your reMarkable using an SSH connection.  
+> All the SSH commands used are in [ssh_commands.py](./ssh_commands.py).  
+> When using a fork (or even my version), please ensure to be aware of which command is used, to ensure that the integration doesn't modify any data on your reMarkable.  
+> **Use it at your own risk.**
 
-<div style="background-color:rgba(70,120,0,0.5); padding: 16px; border-radius: 12px">
-Every single command in this integration is read-only :
-<ul>
-<li>reading file "/sys/class/power_supply/" for battery information</li>
-<li>using read command "df" for storage information</li>
-<li>using read command "free" for RAM information</li>
-<li>reading file "/proc/loadavg" for CPU information</li>
-<li>reading file "/etc/os-release" for OS and firmware information</li>
-<li>reading file "/sys/devices/soc0/machine" for device information</li>
-</ul>
-</div>
+> [!TIP]
+> Every single command in this integration is read-only:
+> - reading file `/sys/class/power_supply/` for battery information
+> - using read command `df` for storage information
+> - using read command `free` for RAM information
+> - reading file `/proc/loadavg` for CPU information
+> - reading file `/etc/os-release` for OS and firmware information
+> - reading file `/sys/devices/soc0/machine` for device information
 
 ## Installation
 
