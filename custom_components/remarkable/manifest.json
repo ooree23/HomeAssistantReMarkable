@@ -1,7 +1,7 @@
 {
   "domain": "remarkable",
   "name": "reMarkable Paper Tablet",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "documentation": "https://github.com/ooree23/HomeAssistantReMarkable",
   "issue_tracker": "https://github.com/ooree23/HomeAssistantReMarkable/issues",
   "requirements": ["paramiko>=3.4.0"],
