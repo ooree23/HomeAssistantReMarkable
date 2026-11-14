@@ -1,13 +1,13 @@
 {
   "domain": "remarkable",
   "name": "reMarkable Paper Tablet",
-  "version": "1.0.4",
+  "categories": ["computers_network.monitoring"],
+  "codeowners": ["@ooree23"],
+  "config_flow": true,
+  "dependencies": [],
   "documentation": "https://github.com/ooree23/HomeAssistantReMarkable",
+  "iot_class": "local_polling",
   "issue_tracker": "https://github.com/ooree23/HomeAssistantReMarkable/issues",
   "requirements": ["paramiko>=3.4.0"],
-  "dependencies": [],
-  "codeowners": ["@ooree23"],
-  "iot_class": "local_polling",
-  "config_flow": true,
-  "categories": ["computers_network.monitoring"]
+  "version": "1.0.4"
 }
