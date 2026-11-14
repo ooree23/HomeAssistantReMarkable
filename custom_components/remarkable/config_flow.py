@@ -1,7 +1,7 @@
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.helpers import selector
-from .const import DOMAIN, DEFAULT_USERNAME, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
+from .const import DOMAIN, DEFAULT_USERNAME, CONF_TRACKER_ENTITY, CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL, CONF_CONNECTION_TYPE, CONF_IP_ADDRESS
 from homeassistant.core import callback
 
 class RemarkableConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
