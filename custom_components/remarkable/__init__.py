@@ -165,10 +165,14 @@ class RemarkableDataUpdateCoordinator(DataUpdateCoordinator):
                 if results["storage_free"]:
                     results["storage_used"] = f"{100 - float(results['storage_free']):.1f}"
 
-                ssh.close()
                 return results
             except Exception as err:
                 raise err
+            finally:
+                try:
+                    ssh.close()
+                except Exception:
+                    pass
 
         try:
             data = await self.hass.async_add_executor_job(fetch_ssh)
