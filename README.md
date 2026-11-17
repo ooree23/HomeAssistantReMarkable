@@ -105,7 +105,8 @@ Track your reMarkable info :
 > You can add as many reMarkable tablets as you want.  
 > Each of them must have its own `device_tracker`.
 
-- Add new integration, and search for reMarkable
+- Add new integration, and search for reMarkable (or use the below button)<br><br>
+  [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=remarkable)<br><br>
 - Fill the form :
   - select the `device_tracker` targeting this new reMarkable (cf above explanation)
   - fill username and password  
@@ -118,6 +119,9 @@ Track your reMarkable info :
 ## Sensors
 
 ### Device example
+
+Your devices will be listed here : 
+[![Open your Home Assistant instance and show your devices.](https://my.home-assistant.io/badges/devices.svg)](https://my.home-assistant.io/redirect/devices/?domain=remarkable)
 
 ![](docs/device_sensors.png)
 
