@@ -11,7 +11,7 @@
 
 # reMarkable status, Home Assistant unofficial integration
 
-![](logo.png)
+![](docs/header.png)
 
 Home Assistant integration to track your reMarkable tablet status.  
 Developped by Aurélien Tomassini (ooree23).  
