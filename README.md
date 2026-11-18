@@ -47,7 +47,6 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 - See the storage evolution chart over time
 - Notify when storage remaining is low
 - ... and whatever you can imagine with all the sensors !  
-
   <img src="docs/storage_hist.png" width="300px"/> <img src="docs/battery_hist.png" width="300px"/>
 
 
