@@ -13,6 +13,8 @@
 
 ![](docs/header.png)
 
+<div style="max-width:1024px; padding: 8px 20px; background-color: rgba(127,127,127,0.1);">
+
 Home Assistant integration to track your reMarkable tablet status.  
 Developped by Aurélien Tomassini (ooree23).  
 **This is a custom integration, not official, nor related to reMarkable team.  
@@ -20,6 +22,8 @@ Please ensure to read the Caution section !**
 
 
 Tested with reMarkable 1, on Home Assistant 2026.11.0.
+
+</div>
 
 <!-- toc -->
 
@@ -29,9 +33,7 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
   * [Requirements](#requirements)
   * [Adding your reMarkable(s)](#adding-your-remarkables)
 - [Trigger](#trigger)
-- [Sensors](#sensors)
-  * [Device example](#device-example)
-  * [Dashboard example](#dashboard-example)
+- [Devices, sensors, dashboard](#devices-sensors-dashboard)
 
 <!-- tocstop -->
 
@@ -44,9 +46,9 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
   create notification when battery is low,
   notify when the battery fully charged...
 - see the storage evolution chart over time,
-  notify when storage remaining is low, etc  
+  notify when storage remaining is low, etc
+- ...and whatever you can imagine with all those sensors !  
   <img src="docs/storage_hist.png" width="300px"/> <img src="docs/battery_hist.png" width="300px"/>
-- ...and whatever you can imagine with all those sensors !
 
 
 ## Caution
@@ -68,9 +70,14 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
 ## Installation
 
+Search for `"reMarkable"` in HACS / Home Assistant Marketplace, since this repository has been approved since Novembre 17th 2026 by HACS administrators,
+or simply click on this button :
+
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
 
 ### Requirements
+
+> The 3 items here are all required.
 
 - Your reMarkable **must be** in the same network as your Home Assistant
 - A `device_tracker` entity that has the IP address of your reMarkable as **a "ip" attribute**.  
@@ -101,24 +108,29 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
 - Add new integration, and search for reMarkable (or use the below button)<br><br>
   [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=remarkable)<br><br>
-- Fill the form :
+- Fill out the form :
   - select the `device_tracker` targeting this new reMarkable (cf above explanation)
-  - fill username and password  
+  - fill the reMarkable SSH username and password  
     <img src="docs/add_device.png" width="350px"/>
 
 ## Trigger
-- Data is refreshed every time the `device_tracker` changes (state or IP)
+
+- Data is refreshed every time the `device_tracker` changes (connexion state or IP)
 - Data is also refreshed every 5 minutes by default (interval customizable)
 
-## Sensors
+## Devices, sensors, dashboard
 
-### Device example
+> Your known reMarkable tablets will be listed here :
+> 
+> [![Open your Home Assistant instance and show an integration.](https://my.home-assistant.io/badges/integration.svg)](https://my.home-assistant.io/redirect/integration/?domain=remarkable) or here [![Open your Home Assistant instance and show your devices.](https://my.home-assistant.io/badges/devices.svg)](https://my.home-assistant.io/redirect/devices/?domain=remarkable)
 
-Your devices will be listed here : 
-[![Open your Home Assistant instance and show your devices.](https://my.home-assistant.io/badges/devices.svg)](https://my.home-assistant.io/redirect/devices/?domain=remarkable)
+<div style="max-width:1024px; padding: 8px 20px; background-color: rgba(127,127,127,0.1);">
 
-![](docs/device_sensors.png)
+You can see the below examples of a device details, showing its sensors, and a dashboard example using those sensors.
 
-### Dashboard example
+</div>
 
-![](docs/dashboard.png)
+![](docs/footer.png)
+
+
+
