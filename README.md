@@ -37,22 +37,16 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
 ## Features
 
-Track your reMarkable info :
-- **Battery** sensor :  
-  you can then see its evolution over the week,  
-  create notification when battery is low,  
-  notify when the battery fully charged...  
-  ![](docs/battery_hist.png)
-- **Storage** usage sensor :  
-  see the storage evolution over time,  
+![](docs/features.png)
+
+- display connexion history chart
+- see the battery evolution chart over the week,
+  create notification when battery is low,
+  notify when the battery fully charged...
+- see the storage evolution chart over time,
   notify when storage remaining is low, etc  
-  ![](docs/storage_hist.png)
-- **CPU** usage sensor
-- **RAM** usage sensor
-- **Firmware** version
-- **Linux** version
-- **Model**
-- Connexion history
+  <img src="docs/storage_hist.png" width="300px"/> <img src="docs/battery_hist.png" width="300px"/>
+- ...and whatever you can imagine with all those sensors !
 
 
 ## Caution
@@ -110,7 +104,7 @@ Track your reMarkable info :
 - Fill the form :
   - select the `device_tracker` targeting this new reMarkable (cf above explanation)
   - fill username and password  
-  ![](docs/add_device.png)
+    <img src="docs/add_device.png" width="350px"/>
 
 ## Trigger
 - Data is refreshed every time the `device_tracker` changes (state or IP)
