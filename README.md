@@ -83,23 +83,38 @@ or simply click on this button :
 2. A `device_tracker` entity that has the IP address of your reMarkable as **a "ip" attribute**.  
    It allows to use a dynamic IP address for your reMarkable, usually thanks to your router
    integration.  
-   > If you have no device_tracker to find the IP from, you can force static IP for your reMarkable on your routeur.  
-   > In this case, you can create a virtual `device_tracker` in your `configuration.yaml`, containing this static IP address.
-   > ```yaml
-   > template:
-   >   - device_tracker:
-   >       - name: "My rM tracker with static IP"
-   >         unique_id: my_remarkable_virtual_tracker
-   >         in_zones: "{{ ['zone.home'] }}" 
-   >         attributes:
-   >           ip: "192.168.1.50"
-   >           mac: "AA:BB:CC:DD:EE:FF"
-   > ```
+   
+   <details>
+        <summary>You don't have a device tracker? Use static IP and a home made device_tracker. See more...</summary>
+        <div>
+           <hr/>
+           If you have no device_tracker to find the IP from, you can force static IP for your reMarkable on your routeur.<br/>
+           In this case, you can create a virtual `device_tracker` in your `configuration.yaml`, containing this static IP address.<br/>
+           <pre><code class="language-yaml">template:
+     - device_tracker:
+         - name: "My rM tracker with static IP"
+           unique_id: my_remarkable_virtual_tracker
+           in_zones: "{{ ['zone.home'] }}"
+           attributes:
+             ip: "192.168.1.50"
+             mac: "AA:BB:CC:DD:EE:FF"</code></pre>
+           <hr/>
+        </div>
+   </details>
+
+
 3. The **SSH over Wifi must be enabled** (disabled by default).   
-  If not enabled yet, go to `Settings` > `Help` > `Copyright...` > Conformity section.  
-  It gives you the SSH login/password, and the command to enable it in Wifi.  
-  Once allowed, your reMarkable will be accessible by Home Assistant over Wifi,
-  every time it is connected to your local network.
+   <details>
+        <summary>How to enable SSH over WiFi ?</summary>
+        <div>
+           <hr/>
+                If not enabled yet, go to `Settings` > `Help` > `Copyright...` > Conformity section.<br/>
+                It gives you the SSH login/password, and the command to enable it in Wifi.<br/>
+                Once allowed, your reMarkable will be accessible by Home Assistant over Wifi,
+                every time it is connected to your local network.
+           <hr/>
+        </div>
+    </details>
 
 ### Adding your reMarkable(s)
 
