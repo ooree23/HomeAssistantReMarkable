@@ -24,14 +24,13 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 <!-- toc -->
 
 - [Features](#features)
+  * [Use cases](#use-cases)
 - [Caution](#caution)
 - [Installation](#installation)
   * [Requirements](#requirements)
   * [Adding your reMarkable(s)](#adding-your-remarkables)
-- [Trigger](#trigger)
-- [Sensors](#sensors)
-  * [Device example](#device-example)
-  * [Dashboard example](#dashboard-example)
+- [Triggers](#triggers)
+- [Devices, sensors, dashboard](#devices-sensors-dashboard)
 
 <!-- tocstop -->
 
@@ -39,14 +38,16 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
 ![](docs/features.png)
 
-- display connexion history chart
-- see the battery evolution chart over the week,
-  create notification when battery is low,
-  notify when the battery fully charged...
-- see the storage evolution chart over time,
-  notify when storage remaining is low, etc  
+### Use cases
+
+- Display connexion history chart to know when your reMakable is used, how long
+- See the battery evolution chart over the time
+- Notify when battery is low
+- Notify when the battery is fully charged
+- See the storage evolution chart over time
+- Notify when storage remaining is low
+- ... and whatever you can imagine with all the sensors !  
   <img src="docs/storage_hist.png" width="300px"/> <img src="docs/battery_hist.png" width="300px"/>
-- ...and whatever you can imagine with all those sensors !
 
 
 ## Caution
@@ -68,57 +69,85 @@ Tested with reMarkable 1, on Home Assistant 2026.11.0.
 
 ## Installation
 
+Search for `"reMarkable"` in HACS / Home Assistant Marketplace,  
+since this repository has been approved since Novembre 17th 2026 by HACS administrators,  
+or simply click on this button :
+
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ooree23&repository=HomeAssistantReMarkable&category=integration)
 
 ### Requirements
 
-- Your reMarkable **must be** in the same network as your Home Assistant
-- A `device_tracker` entity that has the IP address of your reMarkable as **a "ip" attribute**.  
-  It allows to use a dynamic IP address for your reMarkable, usually thanks to your router
-  integration.  
-  > If you have no device_tracker to find the IP from, you can force static IP for your reMarkable on your routeur.  
-  > In this case, you can create a virtual `device_tracker` in your `configuration.yaml`, containing this static IP address.
-  > ```yaml
-  > template:
-  >   - device_tracker:
-  >       - name: "My rM tracker with static IP"
-  >         unique_id: my_remarkable_virtual_tracker
-  >         in_zones: "{{ ['zone.home'] }}" 
-  >         attributes:
-  >           ip: "192.168.1.50"
-  >           mac: "AA:BB:CC:DD:EE:FF"
-  > ```
-- The **SSH over Wifi must be enabled** (disabled by default).   
-  If not enabled yet, go to `Settings` > `Help` > `Copyright...` > Conformity section.  
-  It gives you the SSH login/password, and the command to enable it in Wifi.  
-  Once allowed, your reMarkable will be accessible by Home Assistant over Wifi,
-  every time it is connected to your local network.
+> The 3 items here are all required.
+
+1. Your reMarkable **must be** in the same network as your Home Assistant
+2. A `device_tracker` entity that has the IP address of your reMarkable as **a "ip" attribute**.  
+   It allows to use a dynamic IP address for your reMarkable, usually thanks to your router
+   integration.  
+   
+   <details>
+        <summary>You don't have a device tracker? Use static IP and a home made device_tracker. See more...</summary>
+        <div>
+           <hr/>
+           If you have no device_tracker to find the IP from, you can force static IP for your reMarkable on your routeur.<br/>
+           In this case, you can create a virtual `device_tracker` in your `configuration.yaml`, containing this static IP address.<br/>
+           <pre><code class="language-yaml">template:
+     - device_tracker:
+         - name: "My rM tracker with static IP"
+           unique_id: my_remarkable_virtual_tracker
+           in_zones: "{{ ['zone.home'] }}"
+           attributes:
+             ip: "192.168.1.50"
+             mac: "AA:BB:CC:DD:EE:FF"</code></pre>
+           <hr/>
+        </div>
+   </details>
+
+
+3. The **SSH over Wifi must be enabled** (disabled by default).   
+   <details>
+        <summary>How to enable SSH over WiFi ?</summary>
+        <div>
+           <hr/>
+                If not enabled yet, go to `Settings` > `Help` > `Copyright...` > Conformity section.<br/>
+                It gives you the SSH login/password, and the command to enable it in Wifi.<br/>
+                Once allowed, your reMarkable will be accessible by Home Assistant over Wifi,
+                every time it is connected to your local network.
+           <hr/>
+        </div>
+    </details>
 
 ### Adding your reMarkable(s)
 
 > You can add as many reMarkable tablets as you want.  
 > Each of them must have its own `device_tracker`.
 
-- Add new integration, and search for reMarkable (or use the below button)<br><br>
+1. Add new integration, and search for reMarkable,  
+  or simply use the below button :<br><br>
   [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=remarkable)<br><br>
-- Fill the form :
-  - select the `device_tracker` targeting this new reMarkable (cf above explanation)
-  - fill username and password  
-    <img src="docs/add_device.png" width="350px"/>
+2. Fill out the form :
+   - select the `device_tracker` targeting this new reMarkable (cf above explanation)
+   - <details>
+        <summary>fill the reMarkable SSH username and password</summary>
+        <img src="docs/add_device.png" width="350px"/>
+     </details>
 
-## Trigger
-- Data is refreshed every time the `device_tracker` changes (state or IP)
-- Data is also refreshed every 5 minutes by default (interval customizable)
+## Triggers
 
-## Sensors
+> The reMarkable status is requested using two rules :
+> 1. Data is refreshed every time the `device_tracker` changes (connexion state or IP).  
+>    It means that when your tracker goes from `disconnected` to `connected` (your router just
+>    discovered the reMarkable on WiFi), Home Assistant will ask for its status.
+> 2. As long as the reMarkable is `connected`, data is also refreshed every 5 minutes, by default.  
+>    To avoid battery dropping by those requests, you can change the default interval to whatever you want (in the above setting screen).  
+>    Lower intervals will consume more battery.
 
-### Device example
+## Devices, sensors, dashboard
 
-Your devices will be listed here : 
-[![Open your Home Assistant instance and show your devices.](https://my.home-assistant.io/badges/devices.svg)](https://my.home-assistant.io/redirect/devices/?domain=remarkable)
+> Your known reMarkable tablets will be listed here :
+> 
+> [![Open your Home Assistant instance and show an integration.](https://my.home-assistant.io/badges/integration.svg)](https://my.home-assistant.io/redirect/integration/?domain=remarkable) or here [![Open your Home Assistant instance and show your devices.](https://my.home-assistant.io/badges/devices.svg)](https://my.home-assistant.io/redirect/devices/?domain=remarkable)
 
-![](docs/device_sensors.png)
 
-### Dashboard example
+You can see the below examples of a device details, showing its sensors, and a dashboard example using those sensors.
 
-![](docs/dashboard.png)
+![](docs/footer.png)
