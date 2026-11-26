@@ -126,8 +126,10 @@ or simply click on this button :
   [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=remarkable)<br><br>
 2. Fill out the form :
    - select the `device_tracker` targeting this new reMarkable (cf above explanation)
-   - fill the reMarkable SSH username and password  
-   <img src="docs/add_device.png" width="350px"/>
+   - <details>
+        <summary>fill the reMarkable SSH username and password</summary>
+        <img src="docs/add_device.png" width="350px"/>
+     </details>
 
 ## Triggers
 
